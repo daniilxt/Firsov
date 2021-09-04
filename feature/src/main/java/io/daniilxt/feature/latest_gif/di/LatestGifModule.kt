@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import io.daniilxt.common.di.viewmodel.ViewModelKey
 import io.daniilxt.common.di.viewmodel.ViewModelModule
+import io.daniilxt.feature.domain.usecase.GetLatestGifListUseCase
 import io.daniilxt.feature.latest_gif.presentation.LatestGifViewModel
 
 @Module(
@@ -20,8 +21,9 @@ class LatestGifModule {
     @IntoMap
     @ViewModelKey(LatestGifViewModel::class)
     fun provideViewModel(
+        getLatestGifListUseCase: GetLatestGifListUseCase
     ): ViewModel {
-        return LatestGifViewModel()
+        return LatestGifViewModel(getLatestGifListUseCase)
     }
 
     @Provides
