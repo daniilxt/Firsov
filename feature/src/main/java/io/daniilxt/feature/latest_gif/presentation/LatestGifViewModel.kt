@@ -3,6 +3,7 @@ package io.daniilxt.feature.latest_gif.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.daniilxt.common.error.RequestResult
+import io.daniilxt.feature.domain.usecase.GetHotGifListUseCase
 import io.daniilxt.feature.domain.usecase.GetLatestGifListUseCase
 import io.daniilxt.feature.domain.usecase.GetTopGifListUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -14,7 +15,8 @@ import timber.log.Timber
 
 class LatestGifViewModel(
     private val getLatestGifListUseCase: GetLatestGifListUseCase,
-    private val getTopGifListUseCase: GetTopGifListUseCase
+    private val getTopGifListUseCase: GetTopGifListUseCase,
+    private val getHotGifListUseCase: GetHotGifListUseCase
 ) :
     ViewModel() {
     private val disposable = CompositeDisposable()
@@ -49,6 +51,28 @@ class LatestGifViewModel(
 
     fun loadTopGifList(page: Int) {
         getTopGifListUseCase.invoke(page)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is RequestResult.Success -> {
+                        Timber.tag(TAG).i("SUCCESS")
+                        it.data.forEach { gifData ->
+                            Timber.i("DATA $gifData")
+                        }
+                    }
+                    is RequestResult.Error -> {
+                        Timber.tag(TAG).i("ERROR")
+                    }
+                }
+            }, {
+                Timber.tag(TAG).e(it)
+            })
+            .addTo(disposable)
+    }
+
+    fun loadHotGifList(page: Int) {
+        getHotGifListUseCase.invoke(page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

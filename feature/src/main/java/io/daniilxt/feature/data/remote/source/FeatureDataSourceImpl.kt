@@ -24,7 +24,13 @@ class FeatureDataSourceImpl @Inject constructor(
     }
 
     override fun getTopGifList(page: Int): Single<RequestResult<List<GifModel>>> {
-        return featureApiService.getLatestGifList(page).map {
+        return featureApiService.getTopGifList(page).map {
+            getGifDataFromResponse(it)
+        }
+    }
+
+    override fun getHotGifList(page: Int): Single<RequestResult<List<GifModel>>> {
+        return featureApiService.getHotGifList(page).map {
             getGifDataFromResponse(it)
         }
     }

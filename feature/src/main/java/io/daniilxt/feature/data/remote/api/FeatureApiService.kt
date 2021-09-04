@@ -9,4 +9,10 @@ import retrofit2.http.Path
 interface FeatureApiService {
     @GET("latest/{page}?json=true")
     fun getLatestGifList(@Path("page") page: Int): Single<Response<GifResponse>>
+
+    @GET("top/{page}?json=true")
+    fun getTopGifList(@Path("page") page: Int): Single<Response<GifResponse>>
+
+    @GET("hot/{page}?json=true")
+    fun getHotGifList(@Path("page") page: Int): Single<Response<GifResponse>>
 }
