@@ -20,16 +20,15 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "ENDPOINT", "\"https://qbik.octopus-bit.com\""
-            buildConfigField "String", "REFRESH_ENDPOINT", "\"https://qbik.octopus-bit.com/auth/refresh-token\""
+            buildConfigField "String", "ENDPOINT", "\"https://developerslife.ru\""
         }
         release {
-            buildConfigField "String", "ENDPOINT", "\"https://qbik.octopus-bit.com\""
-            buildConfigField "String", "REFRESH_ENDPOINT", "\"https://qbik.octopus-bit.com/auth/refresh-token\""
+            buildConfigField "String", "ENDPOINT", "\"https://developerslife.ru\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -65,5 +64,7 @@ dependencies {
 
     implementation eventBusDep
 
-    implementation securityDep
+    implementation glideDep
+    implementation coilDep
+    implementation coilGifDep
 }

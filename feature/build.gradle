@@ -70,7 +70,7 @@ dependencies {
     implementation eventBusDep
 
     implementation coilDep
-
-    implementation platform(firebaseBomDep)
-    implementation firebaseMessagingDep
+    implementation glideDep
+    implementation("io.coil-kt:coil:1.3.2")
+    implementation "io.coil-kt:coil-gif:1.3.2"
 }

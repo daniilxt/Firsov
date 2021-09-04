@@ -78,9 +78,4 @@ dependencies {
     implementation gsonConverterDep
     implementation gsonDep
     implementation eventBusDep
-
-    implementation platform(firebaseBomDep)
-    implementation firebaseAnalyticsDep
-    implementation firebaseMessagingDep
-
 }
