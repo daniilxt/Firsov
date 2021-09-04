@@ -6,4 +6,5 @@ import io.reactivex.Single
 
 interface FeatureDataSource {
     fun getLatestGifList(page: Int): Single<RequestResult<List<GifModel>>>
+    fun getTopGifList(page: Int): Single<RequestResult<List<GifModel>>>
 }

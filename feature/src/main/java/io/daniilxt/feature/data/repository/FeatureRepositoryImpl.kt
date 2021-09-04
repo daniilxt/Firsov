@@ -12,4 +12,7 @@ class FeatureRepositoryImpl @Inject constructor(private val featureDataSource: F
     override fun getLatestGifList(page: Int): Single<RequestResult<List<GifModel>>> {
         return featureDataSource.getLatestGifList(page)
     }
+    override fun getTopGifList(page: Int): Single<RequestResult<List<GifModel>>> {
+        return featureDataSource.getTopGifList(page)
+    }
 }
