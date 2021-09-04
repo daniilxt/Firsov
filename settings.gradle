@@ -1,0 +1,4 @@
+include ':feature'
+include ':common'
+include ':app'
+rootProject.name = "fintech"

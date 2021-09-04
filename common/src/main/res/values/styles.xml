@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Button.Enter.Filled" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:backgroundTint">@color/button_tint_primary</item>
+        <item name="android:textColor">@color/text_color_secondary</item>
+        <item name="cornerRadius">@dimen/dp_10</item>
+        <item name="android:paddingTop">@dimen/dp_14</item>
+        <item name="android:paddingBottom">@dimen/dp_14</item>
+        <item name="boxBackgroundMode">none</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="Button.Enter.Outlined" parent="Button.Enter.Filled">
+        <item name="android:backgroundTint">@color/button_tint_secondary</item>
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="strokeColor">@color/stroke_color_primary</item>
+        <item name="strokeWidth">@dimen/dp_2</item>
+    </style>
+</resources>
