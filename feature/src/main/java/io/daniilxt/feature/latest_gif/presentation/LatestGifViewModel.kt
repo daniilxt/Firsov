@@ -1,7 +1,6 @@
 package io.daniilxt.feature.latest_gif.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import io.daniilxt.common.error.RequestResult
 import io.daniilxt.feature.domain.model.GifModel
 import io.daniilxt.feature.domain.usecase.GetLatestGifListUseCase
@@ -11,7 +10,6 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class LatestGifViewModel(
@@ -24,13 +22,13 @@ class LatestGifViewModel(
         MutableStateFlow(emptyList())
     val latestGifList: StateFlow<List<GifModel>> get() = _latestGifList
 
-    init {
-        viewModelScope.launch {
-            loadLatestGifList(1)
-        }
-    }
+    private val _currentGif: MutableStateFlow<GifModel?> = MutableStateFlow(null)
+    val currentGif: StateFlow<GifModel?> get() = _currentGif
 
-    fun loadLatestGifList(page: Int) {
+    private var position: Int = 0
+    private var page: Int = 0
+
+    fun loadLatestGifList(page: Int = this.page) {
         getLatestGifListUseCase.invoke(page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -38,9 +36,7 @@ class LatestGifViewModel(
                 when (it) {
                     is RequestResult.Success -> {
                         Timber.tag(TAG).i("SUCCESS")
-                        it.data.forEach { gifData ->
-                            Timber.i("DATA $gifData")
-                        }
+                        _latestGifList.value = it.data
                     }
                     is RequestResult.Error -> {
                         Timber.tag(TAG).i("ERROR")
@@ -50,6 +46,34 @@ class LatestGifViewModel(
                 Timber.tag(TAG).e(it)
             })
             .addTo(disposable)
+    }
+
+    fun nextGif() {
+        if (_latestGifList.value.size > position + 1) {
+            position++
+            _currentGif.value = _latestGifList.value[position]
+        } else {
+            loadLatestGifList(++page)
+            position = 0
+        }
+        Timber.i("PAGE $page  position $position")
+    }
+
+    fun prevGif() {
+        if (position in 1.._latestGifList.value.size) {
+            position--
+            _currentGif.value = _latestGifList.value[position]
+        } else if (page != 0) {
+            loadLatestGifList(--page)
+            position = _latestGifList.value.size - 1
+        }
+        Timber.i("PAGE $page  position $position")
+    }
+
+    fun setGifFromCurrentPosition() {
+        if (_latestGifList.value.isNotEmpty()) {
+            _currentGif.value = _latestGifList.value[position]
+        }
     }
 
     companion object {
