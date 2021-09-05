@@ -1,4 +1,4 @@
-package io.daniilxt.feature.main_screen.di
+package io.daniilxt.feature.profile.di
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -9,22 +9,22 @@ import dagger.multibindings.IntoMap
 import io.daniilxt.common.di.viewmodel.ViewModelKey
 import io.daniilxt.common.di.viewmodel.ViewModelModule
 import io.daniilxt.feature.FeatureRouter
-import io.daniilxt.feature.main_screen.presentation.MainScreenViewModel
+import io.daniilxt.feature.profile.presentation.ProfileViewModel
 
 @Module(
     includes = [
         ViewModelModule::class
     ]
 )
-class MainScreenModule {
+class ProfileModule {
 
     @Provides
     @IntoMap
-    @ViewModelKey(MainScreenViewModel::class)
+    @ViewModelKey(ProfileViewModel::class)
     fun provideViewModel(
         navigator: FeatureRouter
     ): ViewModel {
-        return MainScreenViewModel(
+        return ProfileViewModel(
             navigator
         )
     }
@@ -33,7 +33,7 @@ class MainScreenModule {
     fun provideViewModelCreator(
         fragment: Fragment,
         viewModelFactory: ViewModelProvider.Factory
-    ): MainScreenViewModel {
-        return ViewModelProvider(fragment, viewModelFactory).get(MainScreenViewModel::class.java)
+    ): ProfileViewModel {
+        return ViewModelProvider(fragment, viewModelFactory).get(ProfileViewModel::class.java)
     }
 }

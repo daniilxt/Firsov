@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import io.daniilxt.common.di.FeatureUtils
+import io.daniilxt.common.extensions.setDebounceClickListener
 import io.daniilxt.common.extensions.setLightStatusBar
 import io.daniilxt.common.extensions.setStatusBarColor
 import io.daniilxt.feature.R
@@ -34,6 +35,9 @@ class MainScreenFragment : Fragment() {
     ): View {
         inject()
         _binding = FragmentMainScreenBinding.inflate(inflater, container, false)
+        binding.frgMainScreenToolbar.includeTabLayoutToolbarIbProfile.setDebounceClickListener {
+            viewModel.openProfileFragment()
+        }
         return binding.root
     }
 

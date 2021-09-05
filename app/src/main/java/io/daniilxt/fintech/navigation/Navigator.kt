@@ -2,10 +2,8 @@ package io.daniilxt.fintech.navigation
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import io.daniilxt.feature.FeatureRouter
 import io.daniilxt.fintech.R
-import timber.log.Timber
 
 class Navigator : FeatureRouter {
 
@@ -24,5 +22,19 @@ class Navigator : FeatureRouter {
 
     private companion object {
         private val TAG = Navigator::class.simpleName
+    }
+
+    override fun openProfileFragment() {
+        when (navController?.currentDestination?.id) {
+            R.id.mainScreenFragment ->
+                navController?.navigate(R.id.action_mainScreenFragment_to_profileFragment)
+        }
+    }
+
+    override fun back() {
+        val popped = navController!!.popBackStack()
+        if (!popped) {
+            activity!!.finish()
+        }
     }
 }

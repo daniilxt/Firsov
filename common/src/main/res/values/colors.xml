@@ -22,4 +22,6 @@
     <color name="text_color_secondary_dark">#A3A3A3</color>
     <color name="background_primary_dark">#3700B3</color>
     <color name="text_color_primary_dark">#3700B3</color>
+
+    <color name="highlight_color_primary">#A3A3A3</color>
 </resources>

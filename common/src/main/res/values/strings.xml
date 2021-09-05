@@ -7,4 +7,6 @@
     <string name="try_again">Повторить</string>
     <string name="no_internet_error">Произошла ошибка при загрузке данных. Проверьте подключение к сети</string>
     <string name="section_now_unavailable">Раздел временно недоступен</string>
+    <string name="profile">Профиль</string>
+    <string name="profile_in_development">Профиль находится в разаработке. Просим прощения за доставленное неудобство</string>
 </resources>
