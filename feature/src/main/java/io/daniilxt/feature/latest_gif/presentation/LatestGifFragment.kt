@@ -23,6 +23,7 @@ import io.daniilxt.common.di.FeatureUtils
 import io.daniilxt.common.extensions.clearLightStatusBar
 import io.daniilxt.common.extensions.setDebounceClickListener
 import io.daniilxt.common.extensions.setStatusBarColor
+import io.daniilxt.common.extensions.showAnimatedText
 import io.daniilxt.feature.R
 import io.daniilxt.feature.databinding.FragmentLatestGifBinding
 import io.daniilxt.feature.di.FeatureApi
@@ -103,7 +104,7 @@ class LatestGifFragment : Fragment() {
     private fun setGifWithInfo(gifModel: GifModel) {
         with(binding.frgLatestGifGifViewer) {
             setImage2(gifModel.gifURL)
-            includeGifViewerTvDescription.text = gifModel.description
+            includeGifViewerTvDescription.showAnimatedText(gifModel.description)
         }
     }
 

@@ -9,10 +9,12 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsetsController
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import io.daniilxt.common.R
 import io.daniilxt.common.utils.DebounceClickListener
 import io.daniilxt.common.utils.DebouncePostHandler
 
@@ -110,3 +112,13 @@ inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(block: T.() ->
 
 fun View.dpToPx(dp: Float): Float = context.dpToPx(dp)
 
+/**
+ * Shows the animated text.
+ *
+ * @param text Displayed text.
+ */
+fun TextView.showAnimatedText(text: String) {
+    val anim1 = AnimationUtils.loadAnimation(this.context, R.anim.appear_text);
+    this.startAnimation(anim1)
+    this.text = text
+}

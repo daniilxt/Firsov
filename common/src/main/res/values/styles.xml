@@ -28,4 +28,14 @@
         <item name="android:letterSpacing">0</item>
         <item name="rippleColor">@color/text_color_secondary_dark</item>
     </style>
+
+    <style name="TextViewDescription">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:shadowColor">@android:color/darker_gray</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">60</item>
+    </style>
 </resources>
