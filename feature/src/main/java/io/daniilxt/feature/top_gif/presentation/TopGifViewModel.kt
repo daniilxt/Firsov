@@ -93,6 +93,7 @@ class TopGifViewModel(private val getTopGifListUseCase: GetTopGifListUseCase) : 
                     }
                     is RequestResult.Error -> {
                         Timber.tag(TAG).i("ERROR")
+                        _layoutState.value = LayoutState.NoData
                     }
                 }
             }, {
@@ -111,7 +112,6 @@ class TopGifViewModel(private val getTopGifListUseCase: GetTopGifListUseCase) : 
             position = 0
         }
         _backButtonState.value = BackButtonState.Enabled
-        Timber.i("PAGE $page  position $position")
     }
 
     fun prevGif() {
@@ -125,13 +125,14 @@ class TopGifViewModel(private val getTopGifListUseCase: GetTopGifListUseCase) : 
         if (page == 0 && position == 0) {
             _backButtonState.value = BackButtonState.Disabled
         }
-        Timber.i("PAGE $page  position $position")
     }
 
     fun setGifFromCurrentPosition() {
         if (_topGifList.value.isNotEmpty()) {
             _layoutState.value = LayoutState.ShowGifViewer
             _currentGif.value = _topGifList.value[position]
+        } else {
+            loadTopGifList()
         }
     }
 
@@ -142,6 +143,7 @@ class TopGifViewModel(private val getTopGifListUseCase: GetTopGifListUseCase) : 
     sealed class LayoutState {
         object ShowGifViewer : LayoutState()
         object NoInternet : LayoutState()
+        object NoData : LayoutState()
     }
 
     sealed class BackButtonState {

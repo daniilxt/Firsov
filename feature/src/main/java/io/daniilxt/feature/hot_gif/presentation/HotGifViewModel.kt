@@ -94,6 +94,7 @@ class HotGifViewModel(private val getHotGifListUseCase: GetHotGifListUseCase) : 
                     }
                     is RequestResult.Error -> {
                         Timber.tag(TAG).i("ERROR")
+                        _layoutState.value = LayoutState.NoData
                     }
                 }
             }, {
@@ -125,13 +126,14 @@ class HotGifViewModel(private val getHotGifListUseCase: GetHotGifListUseCase) : 
         if (page == 0 && position == 0) {
             _backButtonState.value = BackButtonState.Disabled
         }
-        Timber.i("PAGE $page  position $position")
     }
 
     fun setGifFromCurrentPosition() {
         if (_hotGifList.value.isNotEmpty()) {
             _layoutState.value = LayoutState.ShowGifViewer
             _currentGif.value = _hotGifList.value[position]
+        }else{
+            loadHotGifList()
         }
     }
 
@@ -142,6 +144,7 @@ class HotGifViewModel(private val getHotGifListUseCase: GetHotGifListUseCase) : 
     sealed class LayoutState {
         object ShowGifViewer : LayoutState()
         object NoInternet : LayoutState()
+        object NoData : LayoutState()
     }
 
     sealed class BackButtonState {
