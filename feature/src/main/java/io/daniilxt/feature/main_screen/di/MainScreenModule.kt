@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import io.daniilxt.common.di.viewmodel.ViewModelKey
 import io.daniilxt.common.di.viewmodel.ViewModelModule
+import io.daniilxt.feature.FeatureRouter
 import io.daniilxt.feature.main_screen.presentation.MainScreenViewModel
 
 @Module(
@@ -21,8 +22,10 @@ class MainScreenModule {
     @IntoMap
     @ViewModelKey(MainScreenViewModel::class)
     fun provideViewModel(
+        navigator: FeatureRouter
     ): ViewModel {
         return MainScreenViewModel(
+            navigator
         )
     }
 

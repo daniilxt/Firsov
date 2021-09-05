@@ -9,5 +9,19 @@
         android:id="@+id/mainScreenFragment"
         android:name="io.daniilxt.feature.main_screen.presentation.MainScreenFragment"
         android:label="MainScreenFragment"
-        tools:layout="@layout/fragment_main_screen" />
+        tools:layout="@layout/fragment_main_screen">
+        <action
+            android:id="@+id/action_mainScreenFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/open_fragment_slide_left"
+            app:exitAnim="@anim/close_fragment_slide_right"
+            app:popEnterAnim="@anim/open_fragment_slide_right"
+            app:popExitAnim="@anim/close_fragment_slide_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="io.daniilxt.feature.profile.presentation.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

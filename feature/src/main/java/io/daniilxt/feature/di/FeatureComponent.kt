@@ -8,6 +8,7 @@ import io.daniilxt.feature.FeatureRouter
 import io.daniilxt.feature.hot_gif.di.HotGifComponent
 import io.daniilxt.feature.latest_gif.di.LatestGifComponent
 import io.daniilxt.feature.main_screen.di.MainScreenComponent
+import io.daniilxt.feature.profile.di.ProfileComponent
 import io.daniilxt.feature.top_gif.di.TopGifComponent
 
 @Component(
@@ -26,6 +27,7 @@ interface FeatureComponent {
     fun hotGifComponentFactory(): HotGifComponent.Factory
     fun latestGifComponentFactory(): LatestGifComponent.Factory
     fun topGifComponentFactory(): TopGifComponent.Factory
+    fun profileComponentFactory(): ProfileComponent.Factory
 
     @Component.Factory
     interface Factory {
