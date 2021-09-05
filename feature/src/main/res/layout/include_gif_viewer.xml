@@ -8,9 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_30"
         android:backgroundTint="@color/background_primary"
         app:cardCornerRadius="@dimen/dp_10"
-        app:layout_constraintBottom_toTopOf="@+id/include__gif_viewer__ib_back"
+        app:layout_constraintBottom_toTopOf="@+id/include__gif_viewer__statistics"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -27,16 +28,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginHorizontal="@dimen/dp_16"
             android:background="@drawable/background_linear_gradient"
-            android:gravity="center"
-            android:text="@string/app_name" />
+            android:gravity="center" />
     </com.google.android.material.card.MaterialCardView>
+
+    <include
+        android:id="@+id/include__gif_viewer__statistics"
+        layout="@layout/include_gif_statistics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginVertical="@dimen/dp_30"
+        app:layout_constraintBottom_toTopOf="@+id/include__gif_viewer__ib_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/include__gif_viewer__ib_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dp_10"
+        android:backgroundTint="@color/white"
         android:src="@drawable/ic_previous_24"
         app:layout_constraintBottom_toBottomOf="@+id/include__gif_viewer__ib_next"
         app:layout_constraintEnd_toStartOf="@+id/include__gif_viewer__ib_next"
@@ -51,6 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_10"
         android:layout_marginBottom="@dimen/dp_16"
+        android:backgroundTint="@color/white"
         android:src="@drawable/ic_next_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

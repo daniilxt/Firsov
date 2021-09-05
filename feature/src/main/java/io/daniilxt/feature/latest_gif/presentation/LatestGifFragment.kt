@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
@@ -100,6 +99,10 @@ class LatestGifFragment : Fragment() {
         with(binding.frgLatestGifGifViewer) {
             setImage2(gifModel.gifURL)
             includeGifViewerTvDescription.showAnimatedText(gifModel.description)
+            includeGifViewerStatistics.includeGifStatisticsTvAuthor.text = gifModel.author
+            includeGifViewerStatistics.includeGifStatisticsTvComments.text =
+                gifModel.commentsCount.toString()
+            includeGifViewerStatistics.includeGifStatisticsTvLike.text = gifModel.votes.toString()
         }
     }
 
