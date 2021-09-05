@@ -25,6 +25,10 @@ class LatestGifViewModel(
     private val _currentGif: MutableStateFlow<GifModel?> = MutableStateFlow(null)
     val currentGif: StateFlow<GifModel?> get() = _currentGif
 
+    private val _layoutState: MutableStateFlow<LayoutState> =
+        MutableStateFlow(LayoutState.ShowGifViewer)
+    val layoutState: StateFlow<LayoutState> get() = _layoutState
+
     private var position: Int = 0
     private var page: Int = 0
 
@@ -37,6 +41,7 @@ class LatestGifViewModel(
                     is RequestResult.Success -> {
                         Timber.tag(TAG).i("SUCCESS")
                         _latestGifList.value = it.data
+                        _layoutState.value = LayoutState.ShowGifViewer
                     }
                     is RequestResult.Error -> {
                         Timber.tag(TAG).i("ERROR")
@@ -44,6 +49,7 @@ class LatestGifViewModel(
                 }
             }, {
                 Timber.tag(TAG).e(it)
+                _layoutState.value = LayoutState.NoInternet
             })
             .addTo(disposable)
     }
@@ -72,8 +78,18 @@ class LatestGifViewModel(
 
     fun setGifFromCurrentPosition() {
         if (_latestGifList.value.isNotEmpty()) {
+            _layoutState.value = LayoutState.ShowGifViewer
             _currentGif.value = _latestGifList.value[position]
         }
+    }
+
+    fun setNoInternetState() {
+        _layoutState.value = LayoutState.NoInternet
+    }
+
+    sealed class LayoutState {
+        object ShowGifViewer : LayoutState()
+        object NoInternet : LayoutState()
     }
 
     companion object {

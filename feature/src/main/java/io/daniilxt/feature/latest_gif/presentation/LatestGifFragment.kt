@@ -56,6 +56,9 @@ class LatestGifFragment : Fragment() {
         binding.frgLatestGifGifViewer.includeGifViewerIbBack.setDebounceClickListener {
             viewModel.prevGif()
         }
+        binding.frgLatestGifAlertError.includeNoInternetConnectionMbWarning.setDebounceClickListener {
+            viewModel.setGifFromCurrentPosition()
+        }
         return binding.root
     }
 
@@ -82,18 +85,30 @@ class LatestGifFragment : Fragment() {
                 viewModel.setGifFromCurrentPosition()
             }
         }
+        lifecycleScope.launch {
+            viewModel.layoutState.collect {
+                setLayout(it)
+            }
+        }
+    }
+
+    private fun setLayout(state: LatestGifViewModel.LayoutState) {
+        disableIncludedLayouts()
+        when (state) {
+            is LatestGifViewModel.LayoutState.ShowGifViewer -> setShowGifViewerLayout()
+            is LatestGifViewModel.LayoutState.NoInternet -> setNoInternetLayout()
+        }
     }
 
     private fun setGifWithInfo(gifModel: GifModel) {
         with(binding.frgLatestGifGifViewer) {
-            setImage(gifModel.gifURL)
+            setImage2(gifModel.gifURL)
             includeGifViewerTvDescription.text = gifModel.description
         }
     }
 
 
     private fun setImage2(path: String) {
-
         val circularProgressDrawable = CircularProgressDrawable(requireContext())
         circularProgressDrawable.strokeWidth = 8f
         circularProgressDrawable.centerRadius = 40f
@@ -142,6 +157,19 @@ class LatestGifFragment : Fragment() {
         Coil.setImageLoader(imageLoader)
         binding.frgLatestGifGifViewer.includeGifViewerIvImage.load(path) {
         }
+    }
+
+    private fun disableIncludedLayouts() {
+        binding.frgLatestGifGifViewer.root.visibility = View.GONE
+        binding.frgLatestGifAlertError.root.visibility = View.GONE
+    }
+
+    private fun setShowGifViewerLayout() {
+        binding.frgLatestGifGifViewer.root.visibility = View.VISIBLE
+    }
+
+    private fun setNoInternetLayout() {
+        binding.frgLatestGifAlertError.root.visibility = View.VISIBLE
     }
 
     private fun inject() {
