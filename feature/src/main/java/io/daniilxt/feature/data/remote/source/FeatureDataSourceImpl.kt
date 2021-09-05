@@ -38,7 +38,7 @@ class FeatureDataSourceImpl @Inject constructor(
     private fun getGifDataFromResponse(response: Response<GifResponse>) = when {
         response.isSuccessful -> {
             val res = response.body()
-            if (res != null) {
+            if (res != null && res.totalCount != 0) {
                 RequestResult.Success(res.toGifModelList())
             } else {
                 RequestResult.Error(GifDetailsError.Unknown)

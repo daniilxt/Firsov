@@ -47,6 +47,9 @@ class HotGifFragment : Fragment() {
                 viewModel.setGifFromCurrentPosition()
             }
         }
+        binding.frgHotGifNoData.includeNoDataMbTryAgain.setDebounceClickListener{
+            viewModel.setGifFromCurrentPosition()
+        }
         return binding.root
     }
 
@@ -106,6 +109,7 @@ class HotGifFragment : Fragment() {
         when (state) {
             is HotGifViewModel.LayoutState.ShowGifViewer -> setShowGifViewerLayout()
             is HotGifViewModel.LayoutState.NoInternet -> setNoInternetLayout()
+            is HotGifViewModel.LayoutState.NoData -> setNoDataLayout()
         }
     }
 
@@ -138,6 +142,10 @@ class HotGifFragment : Fragment() {
 
     private fun setNoInternetLayout() {
         binding.frgHotGifAlertError.root.visibility = View.VISIBLE
+    }
+
+    private fun setNoDataLayout() {
+        binding.frgHotGifNoData.root.visibility = View.VISIBLE
     }
 
     private fun inject() {

@@ -18,4 +18,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
+
+    <include
+        android:id="@+id/frg_top_gif__no_data"
+        layout="@layout/include_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 </FrameLayout>
