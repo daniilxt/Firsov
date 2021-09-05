@@ -99,10 +99,11 @@ class LatestGifFragment : Fragment() {
         with(binding.frgLatestGifGifViewer) {
             setImage2(gifModel.gifURL)
             includeGifViewerTvDescription.showAnimatedText(gifModel.description)
-            includeGifViewerStatistics.includeGifStatisticsTvAuthor.text = gifModel.author
-            includeGifViewerStatistics.includeGifStatisticsTvComments.text =
+            includeGifViewerStatistics.includeGifStatisticsTvAuthor.showAnimatedText(gifModel.author)
+            includeGifViewerStatistics.includeGifStatisticsTvComments.showAnimatedText(
                 gifModel.commentsCount.toString()
-            includeGifViewerStatistics.includeGifStatisticsTvLike.text = gifModel.votes.toString()
+            )
+            includeGifViewerStatistics.includeGifStatisticsTvLike.showAnimatedText(gifModel.votes.toString())
         }
     }
 
