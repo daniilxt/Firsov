@@ -47,6 +47,9 @@ class TopGifFragment : Fragment() {
                 viewModel.setGifFromCurrentPosition()
             }
         }
+        binding.frgTopGifNoData.includeNoDataMbTryAgain.setDebounceClickListener {
+            viewModel.setGifFromCurrentPosition()
+        }
         return binding.root
     }
 
@@ -106,6 +109,7 @@ class TopGifFragment : Fragment() {
         when (state) {
             is TopGifViewModel.LayoutState.ShowGifViewer -> setShowGifViewerLayout()
             is TopGifViewModel.LayoutState.NoInternet -> setNoInternetLayout()
+            is TopGifViewModel.LayoutState.NoData -> setNoDataLayout()
         }
     }
 
@@ -138,6 +142,10 @@ class TopGifFragment : Fragment() {
 
     private fun setNoInternetLayout() {
         binding.frgTopGifAlertError.root.visibility = View.VISIBLE
+    }
+
+    private fun setNoDataLayout() {
+        binding.frgTopGifNoData.root.visibility = View.VISIBLE
     }
 
     private fun inject() {

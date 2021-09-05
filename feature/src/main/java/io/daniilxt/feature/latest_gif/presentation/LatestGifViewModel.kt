@@ -72,7 +72,6 @@ class LatestGifViewModel(
 
     fun getGifList(page: Int = this.page) {
         getGifListFromDatabase(page, GifTopic.LATEST) {
-            Timber.i("DATAAAA $it")
             if (!it.isNullOrEmpty()) {
                 _latestGifList.value = it.map { gifDataBaseModel -> gifDataBaseModel.toGifModel() }
             } else {
@@ -81,7 +80,7 @@ class LatestGifViewModel(
         }
     }
 
-    fun loadLatestGifList(page: Int = this.page) {
+    private fun loadLatestGifList(page: Int = this.page) {
         getLatestGifListUseCase.invoke(page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -98,6 +97,7 @@ class LatestGifViewModel(
                     }
                     is RequestResult.Error -> {
                         Timber.tag(TAG).i("ERROR")
+                        _layoutState.value = LayoutState.NoData
                     }
                 }
             }, {
@@ -116,7 +116,6 @@ class LatestGifViewModel(
             position = 0
         }
         _backButtonState.value = BackButtonState.Enabled
-        Timber.i("PAGE $page  position $position")
     }
 
     fun prevGif() {
@@ -130,13 +129,14 @@ class LatestGifViewModel(
         if (page == 0 && position == 0) {
             _backButtonState.value = BackButtonState.Disabled
         }
-        Timber.i("PAGE $page  position $position")
     }
 
     fun setGifFromCurrentPosition() {
         if (_latestGifList.value.isNotEmpty()) {
             _layoutState.value = LayoutState.ShowGifViewer
             _currentGif.value = _latestGifList.value[position]
+        } else {
+            loadLatestGifList()
         }
     }
 
@@ -147,6 +147,7 @@ class LatestGifViewModel(
     sealed class LayoutState {
         object ShowGifViewer : LayoutState()
         object NoInternet : LayoutState()
+        object NoData : LayoutState()
     }
 
     sealed class BackButtonState {

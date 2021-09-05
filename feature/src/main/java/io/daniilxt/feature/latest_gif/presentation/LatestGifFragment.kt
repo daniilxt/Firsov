@@ -46,6 +46,9 @@ class LatestGifFragment : Fragment() {
                 viewModel.setGifFromCurrentPosition()
             }
         }
+        binding.frgLatestGifNoData.includeNoDataMbTryAgain.setDebounceClickListener {
+            viewModel.setGifFromCurrentPosition()
+        }
         return binding.root
     }
 
@@ -105,6 +108,7 @@ class LatestGifFragment : Fragment() {
         when (state) {
             is LatestGifViewModel.LayoutState.ShowGifViewer -> setShowGifViewerLayout()
             is LatestGifViewModel.LayoutState.NoInternet -> setNoInternetLayout()
+            is LatestGifViewModel.LayoutState.NoData -> setNoDataLayout()
         }
     }
 
@@ -129,6 +133,7 @@ class LatestGifFragment : Fragment() {
     private fun disableIncludedLayouts() {
         binding.frgLatestGifGifViewer.root.visibility = View.GONE
         binding.frgLatestGifAlertError.root.visibility = View.GONE
+        binding.frgLatestGifNoData.root.visibility = View.GONE
     }
 
     private fun setShowGifViewerLayout() {
@@ -137,6 +142,10 @@ class LatestGifFragment : Fragment() {
 
     private fun setNoInternetLayout() {
         binding.frgLatestGifAlertError.root.visibility = View.VISIBLE
+    }
+
+    private fun setNoDataLayout() {
+        binding.frgLatestGifNoData.root.visibility = View.VISIBLE
     }
 
     private fun inject() {

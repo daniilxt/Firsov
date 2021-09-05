@@ -132,6 +132,8 @@ class HotGifViewModel(private val getHotGifListUseCase: GetHotGifListUseCase) : 
         if (_hotGifList.value.isNotEmpty()) {
             _layoutState.value = LayoutState.ShowGifViewer
             _currentGif.value = _hotGifList.value[position]
+        }else{
+            loadHotGifList()
         }
     }
 
