@@ -23,15 +23,9 @@ class LatestGifModule {
     @IntoMap
     @ViewModelKey(LatestGifViewModel::class)
     fun provideViewModel(
-        getLatestGifListUseCase: GetLatestGifListUseCase,
-        getTopGifListUseCase: GetTopGifListUseCase,
-        getHotGifListUseCase: GetHotGifListUseCase
+        getLatestGifListUseCase: GetLatestGifListUseCase
     ): ViewModel {
-        return LatestGifViewModel(
-            getLatestGifListUseCase,
-            getTopGifListUseCase,
-            getHotGifListUseCase
-        )
+        return LatestGifViewModel(getLatestGifListUseCase)
     }
 
     @Provides
