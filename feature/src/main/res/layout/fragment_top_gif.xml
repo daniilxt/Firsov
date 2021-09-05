@@ -11,4 +11,11 @@
         layout="@layout/include_gif_viewer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <include
+        android:id="@+id/frg_top_gif__alert_error"
+        layout="@layout/include_no_internet_connection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 </FrameLayout>

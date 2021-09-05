@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import io.daniilxt.common.di.viewmodel.ViewModelKey
 import io.daniilxt.common.di.viewmodel.ViewModelModule
+import io.daniilxt.feature.domain.usecase.GetHotGifListUseCase
 import io.daniilxt.feature.hot_gif.presentation.HotGifViewModel
 
 @Module(
@@ -21,8 +22,9 @@ class HotGifModule {
     @IntoMap
     @ViewModelKey(HotGifViewModel::class)
     fun provideViewModel(
+        hotGifListUseCase: GetHotGifListUseCase
     ): ViewModel {
-        return HotGifViewModel()
+        return HotGifViewModel(hotGifListUseCase)
     }
 
     @Provides
