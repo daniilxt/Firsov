@@ -39,6 +39,10 @@ class LatestGifViewModel(
         MutableStateFlow(LayoutState.ShowGifViewer)
     val layoutState: StateFlow<LayoutState> get() = _layoutState
 
+    private val _backButtonState: MutableStateFlow<BackButtonState> =
+        MutableStateFlow(BackButtonState.Disabled)
+    val backButtonState: StateFlow<BackButtonState> get() = _backButtonState
+
     private var position: Int = 0
     private var page: Int = 0
 
@@ -111,6 +115,7 @@ class LatestGifViewModel(
             getGifList(++page)
             position = 0
         }
+        _backButtonState.value = BackButtonState.Enabled
         Timber.i("PAGE $page  position $position")
     }
 
@@ -121,6 +126,9 @@ class LatestGifViewModel(
         } else if (page != 0) {
             getGifList(--page)
             position = _latestGifList.value.size - 1
+        }
+        if (page == 0 && position == 0) {
+            _backButtonState.value = BackButtonState.Disabled
         }
         Timber.i("PAGE $page  position $position")
     }
@@ -139,6 +147,11 @@ class LatestGifViewModel(
     sealed class LayoutState {
         object ShowGifViewer : LayoutState()
         object NoInternet : LayoutState()
+    }
+
+    sealed class BackButtonState {
+        object Enabled : BackButtonState()
+        object Disabled : BackButtonState()
     }
 
     companion object {

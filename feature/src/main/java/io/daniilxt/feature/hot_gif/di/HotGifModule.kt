@@ -8,7 +8,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import io.daniilxt.common.di.viewmodel.ViewModelKey
 import io.daniilxt.common.di.viewmodel.ViewModelModule
-import ru.daniilxt.feature.hot_gif.presentation.HotGifViewModel
+import io.daniilxt.feature.hot_gif.presentation.HotGifViewModel
 
 @Module(
     includes = [

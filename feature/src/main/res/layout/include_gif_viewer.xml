@@ -20,7 +20,7 @@
             android:id="@+id/include__gif_viewer__iv_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/include__gif_viewer__tv_description"

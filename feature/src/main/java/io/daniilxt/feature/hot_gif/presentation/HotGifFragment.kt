@@ -12,7 +12,6 @@ import io.daniilxt.feature.R
 import io.daniilxt.feature.databinding.FragmentHotGifBinding
 import io.daniilxt.feature.di.FeatureApi
 import io.daniilxt.feature.di.FeatureComponent
-import ru.daniilxt.feature.hot_gif.presentation.HotGifViewModel
 import javax.inject.Inject
 
 class HotGifFragment : Fragment() {

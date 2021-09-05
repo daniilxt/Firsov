@@ -1,4 +1,4 @@
-package ru.daniilxt.feature.hot_gif.presentation
+package io.daniilxt.feature.hot_gif.presentation
 
 import androidx.lifecycle.ViewModel
 
