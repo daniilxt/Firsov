@@ -119,7 +119,7 @@ class LatestGifViewModel(
             position--
             _currentGif.value = _latestGifList.value[position]
         } else if (page != 0) {
-            loadLatestGifList(--page)
+            getGifList(--page)
             position = _latestGifList.value.size - 1
         }
         Timber.i("PAGE $page  position $position")

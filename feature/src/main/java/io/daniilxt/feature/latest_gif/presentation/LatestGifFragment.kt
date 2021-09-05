@@ -2,28 +2,20 @@ package io.daniilxt.feature.latest_gif.presentation
 
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import coil.Coil
-import coil.ImageLoader
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
-import coil.load
 import com.bumptech.glide.GenericTransitionOptions
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import io.daniilxt.common.di.FeatureUtils
-import io.daniilxt.common.extensions.clearLightStatusBar
-import io.daniilxt.common.extensions.setDebounceClickListener
-import io.daniilxt.common.extensions.setStatusBarColor
-import io.daniilxt.common.extensions.showAnimatedText
+import io.daniilxt.common.extensions.*
 import io.daniilxt.feature.R
 import io.daniilxt.feature.databinding.FragmentLatestGifBinding
 import io.daniilxt.feature.di.FeatureApi
@@ -59,7 +51,9 @@ class LatestGifFragment : Fragment() {
             viewModel.prevGif()
         }
         binding.frgLatestGifAlertError.includeNoInternetConnectionMbWarning.setDebounceClickListener {
-            viewModel.setGifFromCurrentPosition()
+            if (requireActivity().isOnline(requireContext())) {
+                viewModel.setGifFromCurrentPosition()
+            }
         }
         return binding.root
     }
@@ -109,7 +103,6 @@ class LatestGifFragment : Fragment() {
         }
     }
 
-
     private fun setImage2(path: String) {
         val circularProgressDrawable = CircularProgressDrawable(requireContext())
         circularProgressDrawable.strokeWidth = 8f
@@ -128,6 +121,7 @@ class LatestGifFragment : Fragment() {
                 ): Boolean {
                     Timber.i("GLIDE ERROR ${e.toString()}")
                     circularProgressDrawable.stop()
+                    viewModel.setNoInternetState()
                     return false
                 }
 
@@ -144,21 +138,6 @@ class LatestGifFragment : Fragment() {
             .transition(GenericTransitionOptions.with(android.R.anim.fade_in))
             .placeholder(circularProgressDrawable)
             .into(binding.frgLatestGifGifViewer.includeGifViewerIvImage)
-    }
-
-    private fun setImage(path: String) {
-        val imageLoader = ImageLoader.Builder(requireContext())
-            .componentRegistry {
-                if (Build.VERSION.SDK_INT >= 28) {
-                    add(ImageDecoderDecoder(requireContext()))
-                } else {
-                    add(GifDecoder())
-                }
-            }
-            .build()
-        Coil.setImageLoader(imageLoader)
-        binding.frgLatestGifGifViewer.includeGifViewerIvImage.load(path) {
-        }
     }
 
     private fun disableIncludedLayouts() {
