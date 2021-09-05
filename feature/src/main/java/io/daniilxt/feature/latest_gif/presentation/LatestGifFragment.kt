@@ -48,8 +48,9 @@ class LatestGifFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         inject()
+        viewModel.initDatabase(requireContext())
         _binding = FragmentLatestGifBinding.inflate(inflater, container, false)
-        viewModel.loadLatestGifList()
+        viewModel.getGifList()
 
         binding.frgLatestGifGifViewer.includeGifViewerIbNext.setDebounceClickListener {
             viewModel.nextGif()

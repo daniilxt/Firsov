@@ -1,15 +1,25 @@
 package io.daniilxt.feature.latest_gif.presentation
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import io.daniilxt.common.error.RequestResult
+import io.daniilxt.feature.database.GifsDB
+import io.daniilxt.feature.database.models.GifDataBaseModel
+import io.daniilxt.feature.database.models.toGifModel
+import io.daniilxt.feature.database.repository.GifRepository
 import io.daniilxt.feature.domain.model.GifModel
+import io.daniilxt.feature.domain.model.GifTopic
+import io.daniilxt.feature.domain.model.toGifDataBaseModel
 import io.daniilxt.feature.domain.usecase.GetLatestGifListUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class LatestGifViewModel(
@@ -32,6 +42,41 @@ class LatestGifViewModel(
     private var position: Int = 0
     private var page: Int = 0
 
+    //TODO make normal
+    private var repository: GifRepository? = null
+
+    fun initDatabase(context: Context) {
+        val userDao = GifsDB.getDatabase(context).gifsDao()
+        repository = GifRepository(userDao)
+    }
+
+    private fun addGifListToDatabase(data: List<GifDataBaseModel>) =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository?.addGifList(data)
+        }
+
+    private fun getGifListFromDatabase(
+        page: Int,
+        gifTopic: GifTopic,
+        callback: (gifList: List<GifDataBaseModel>?) -> Unit
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val gifListFromDB = repository?.getGifListFromPage(page, gifTopic)
+            callback(gifListFromDB)
+        }
+    }
+
+    fun getGifList(page: Int = this.page) {
+        getGifListFromDatabase(page, GifTopic.LATEST) {
+            Timber.i("DATAAAA $it")
+            if (!it.isNullOrEmpty()) {
+                _latestGifList.value = it.map { gifDataBaseModel -> gifDataBaseModel.toGifModel() }
+            } else {
+                loadLatestGifList()
+            }
+        }
+    }
+
     fun loadLatestGifList(page: Int = this.page) {
         getLatestGifListUseCase.invoke(page)
             .subscribeOn(Schedulers.io())
@@ -41,6 +86,10 @@ class LatestGifViewModel(
                     is RequestResult.Success -> {
                         Timber.tag(TAG).i("SUCCESS")
                         _latestGifList.value = it.data
+                        val data = it.data.map { gifModel ->
+                            gifModel.toGifDataBaseModel(page, GifTopic.LATEST)
+                        }
+                        addGifListToDatabase(data)
                         _layoutState.value = LayoutState.ShowGifViewer
                     }
                     is RequestResult.Error -> {
@@ -59,7 +108,7 @@ class LatestGifViewModel(
             position++
             _currentGif.value = _latestGifList.value[position]
         } else {
-            loadLatestGifList(++page)
+            getGifList(++page)
             position = 0
         }
         Timber.i("PAGE $page  position $position")
