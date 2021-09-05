@@ -1,19 +1,11 @@
 package io.daniilxt.feature.latest_gif.presentation
 
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import com.bumptech.glide.GenericTransitionOptions
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import io.daniilxt.common.di.FeatureUtils
 import io.daniilxt.common.extensions.*
 import io.daniilxt.feature.R
@@ -21,6 +13,7 @@ import io.daniilxt.feature.databinding.FragmentLatestGifBinding
 import io.daniilxt.feature.di.FeatureApi
 import io.daniilxt.feature.di.FeatureComponent
 import io.daniilxt.feature.domain.model.GifModel
+import io.daniilxt.helper.GlideHelper
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -35,9 +28,7 @@ class LatestGifFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         inject()
         viewModel.initDatabase(requireContext())
@@ -58,11 +49,6 @@ class LatestGifFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().setStatusBarColor(R.color.white)
         requireView().clearLightStatusBar()
@@ -70,12 +56,23 @@ class LatestGifFragment : Fragment() {
         subscribe()
     }
 
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+
     private fun subscribe() {
+        lifecycleScope.launch {
+            viewModel.backButtonState.collect {
+                handleBackButtonState(it)
+            }
+        }
         lifecycleScope.launch {
             viewModel.currentGif.collect {
                 it?.let { it1 -> setGifWithInfo(it1) }
             }
         }
+        // Set image when fragment started
         lifecycleScope.launch {
             viewModel.latestGifList.collect {
                 viewModel.setGifFromCurrentPosition()
@@ -88,6 +85,21 @@ class LatestGifFragment : Fragment() {
         }
     }
 
+    private fun handleBackButtonState(state: LatestGifViewModel.BackButtonState) {
+        when (state) {
+            is LatestGifViewModel.BackButtonState.Disabled -> disableBackButton()
+            is LatestGifViewModel.BackButtonState.Enabled -> enableBackButton()
+        }
+    }
+
+    private fun enableBackButton() {
+        binding.frgLatestGifGifViewer.includeGifViewerIbBack.isClickable = true
+    }
+
+    private fun disableBackButton() {
+        binding.frgLatestGifGifViewer.includeGifViewerIbBack.isClickable = false
+    }
+
     private fun setLayout(state: LatestGifViewModel.LayoutState) {
         disableIncludedLayouts()
         when (state) {
@@ -98,46 +110,20 @@ class LatestGifFragment : Fragment() {
 
     private fun setGifWithInfo(gifModel: GifModel) {
         with(binding.frgLatestGifGifViewer) {
-            setImage2(gifModel.gifURL)
+            setImage(gifModel.gifURL)
             includeGifViewerTvDescription.showAnimatedText(gifModel.description)
+            includeGifViewerStatistics.includeGifStatisticsTvAuthor.showAnimatedText(gifModel.author)
+            includeGifViewerStatistics.includeGifStatisticsTvComments.showAnimatedText(
+                gifModel.commentsCount.toString()
+            )
+            includeGifViewerStatistics.includeGifStatisticsTvLike.showAnimatedText(gifModel.votes.toString())
         }
     }
 
-    private fun setImage2(path: String) {
-        val circularProgressDrawable = CircularProgressDrawable(requireContext())
-        circularProgressDrawable.strokeWidth = 8f
-        circularProgressDrawable.centerRadius = 40f
-        circularProgressDrawable.setColorSchemeColors(Color.BLUE)
-        circularProgressDrawable.start()
-
-        Glide.with(this)
-            .load(path)
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    Timber.i("GLIDE ERROR ${e.toString()}")
-                    circularProgressDrawable.stop()
-                    viewModel.setNoInternetState()
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: com.bumptech.glide.request.target.Target<Drawable>?,
-                    dataSource: com.bumptech.glide.load.DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    return false
-                }
-            })
-            .transition(GenericTransitionOptions.with(android.R.anim.fade_in))
-            .placeholder(circularProgressDrawable)
-            .into(binding.frgLatestGifGifViewer.includeGifViewerIvImage)
+    private fun setImage(path: String) {
+        GlideHelper.loadGif(
+            requireContext(), path, binding.frgLatestGifGifViewer.includeGifViewerIvImage
+        ) { viewModel.setNoInternetState() }
     }
 
     private fun disableIncludedLayouts() {

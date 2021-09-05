@@ -67,4 +67,7 @@ dependencies {
     implementation glideDep
     implementation coilDep
     implementation coilGifDep
+
+    implementation legacyDep
+
 }

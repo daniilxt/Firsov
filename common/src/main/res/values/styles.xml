@@ -38,4 +38,12 @@
         <item name="android:shadowDy">0</item>
         <item name="android:shadowRadius">60</item>
     </style>
+
+    <style name="TextView.Caption" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/text_color_primary_dark</item>
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
 </resources>

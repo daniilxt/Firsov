@@ -1,0 +1,79 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dp_10"
+    android:backgroundTint="@color/background_secondary"
+    app:cardCornerRadius="@dimen/dp_10"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/dp_10">
+
+        <ImageView
+            android:id="@+id/include__gif_statistics__iv_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_author_24"
+            app:layout_constraintEnd_toStartOf="@+id/include__gif_statistics__iv_Like"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/include__gif_statistics__tv_author"
+            style="@style/TextView.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/include__gif_statistics__iv_author"
+            app:layout_constraintStart_toStartOf="@+id/include__gif_statistics__iv_author"
+            app:layout_constraintTop_toBottomOf="@+id/include__gif_statistics__iv_author"
+            tools:text="daniilxt" />
+
+        <ImageView
+            android:id="@+id/include__gif_statistics__iv_Like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_like_24"
+            app:layout_constraintEnd_toStartOf="@+id/include__gif_statistics__iv_comments"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include__gif_statistics__iv_author"
+            app:layout_constraintTop_toTopOf="@+id/include__gif_statistics__iv_author" />
+
+        <TextView
+            android:id="@+id/include__gif_statistics__tv_Like"
+            style="@style/TextView.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/include__gif_statistics__iv_Like"
+            app:layout_constraintStart_toStartOf="@+id/include__gif_statistics__iv_Like"
+            app:layout_constraintTop_toBottomOf="@+id/include__gif_statistics__iv_Like"
+            tools:text="100" />
+
+        <ImageView
+            android:id="@+id/include__gif_statistics__iv_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_comment_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include__gif_statistics__iv_Like"
+            app:layout_constraintTop_toTopOf="@+id/include__gif_statistics__iv_Like" />
+
+        <TextView
+            android:id="@+id/include__gif_statistics__tv_comments"
+            style="@style/TextView.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/include__gif_statistics__iv_comments"
+            app:layout_constraintStart_toStartOf="@+id/include__gif_statistics__iv_comments"
+            app:layout_constraintTop_toBottomOf="@+id/include__gif_statistics__iv_comments"
+            tools:text="40" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
